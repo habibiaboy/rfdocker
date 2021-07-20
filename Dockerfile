@@ -1,6 +1,6 @@
 FROM ubuntu:18.04
 
-LABEL maintainer "Muhammad Rasyid Fahroni <ochid.ghuroba@gmail.com>"
+LABEL maintainer "damarre <dear.ananta@gmail.com>"
 
 #=============
 # Set WORKDIR
