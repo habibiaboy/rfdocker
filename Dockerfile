@@ -104,7 +104,7 @@ RUN wget -nv -O noVNC.zip "https://github.com/novnc/noVNC/archive/${NOVNC_SHA}.z
 #==============================================
 # Download Robot Framework and Selenium Library
 #==============================================
-RUN pip3 install wheel && pip install robotframework==4.1 && pip3 install --upgrade robotframework-seleniumlibrary robotframework-faker
+RUN pip3 install wheel && pip3 install robotframework==4.1 && pip3 install --upgrade robotframework-seleniumlibrary robotframework-faker
 
 #======================
 # Download Chromedriver
