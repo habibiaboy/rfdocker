@@ -64,7 +64,6 @@ WORKDIR /root
 RUN apt-get -qqy update && apt-get -qqy upgrade && apt-get -qqy install --no-install-recommends \
     supervisor \
     xvfb \
-    vim \
     x11vnc \
     openbox \
     menu \
@@ -83,8 +82,7 @@ RUN apt-get -qqy update && apt-get -qqy upgrade && apt-get -qqy install --no-ins
     libgconf2-4 \
     wget && \
     apt-get -qqy autoremove && \
-    rm -rf /var/lib/apt/lists/* && \
-    ln -s /usr/bin/chromium-browser /usr/bin/google-chrome
+    rm -rf /var/lib/apt/lists/*
 
 #=======
 # noVNC
@@ -104,12 +102,12 @@ RUN wget -nv -O noVNC.zip "https://github.com/novnc/noVNC/archive/${NOVNC_SHA}.z
 #==============================================
 # Download Robot Framework and Selenium Library
 #==============================================
-RUN pip3 install wheel && pip3 install robotframework==4.1 && pip3 install --upgrade robotframework-seleniumlibrary robotframework-faker
+RUN pip3 install wheel && pip3 install robotframework==4.1 && pip3 install --upgrade robotframework-seleniumlibrary robotframework-faker && pip3 install pyyaml
 
 #======================
-# Download Chromedriver
+# Download Chromium
 #======================
-ARG CHROMEDRIVER_VERSION=2.43
+ARG CHROMEDRIVER_VERSION=91.0.4472.101
 ENV CHROMEDRIVER_VERSION=$CHROMEDRIVER_VERSION
 
 RUN wget https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip;\
@@ -117,6 +115,13 @@ unzip chromedriver_linux64.zip;\
 rm -rf chromedriver_linux64.zip;\
 mv -f chromedriver /usr/local/bin/chromedriver;\
 chmod 0755 /usr/local/bin/chromedriver
+
+#======================
+# Download Chromedriver
+#======================
+RUN apt-get -qqy update && apt-get -qqy upgrade && apt-get -qqy install --no-install-recommends chromium-browser
+RUN ln -s /usr/bin/chromium-browser /usr/bin/google-chrome
+  
 
 #=====================
 # Download Geckodriver
@@ -152,7 +157,7 @@ USER robot
 WORKDIR /home/robot
 
 ### fix to start chromium in a Docker container
-RUN echo "CHROMIUM_FLAGS='--no-sandbox --start-maximized --disable-gpu --user-data-dir --window-size=$SCREEN_WIDTH,$SCREEN_HEIGHT --window-position=0,0'" > /home/robot/.chromium-browser.init
+RUN echo "CHROMIUM_FLAGS='--headless --no-sandbox --start-maximized --disable-gpu --disable-dev-shm-usage --user-data-dir --window-size=$SCREEN_WIDTH,$SCREEN_HEIGHT --window-position=0,0'" >> ~/.chromium-browser.init
 
 ### Back to root user
 USER root
