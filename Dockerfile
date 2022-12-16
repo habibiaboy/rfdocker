@@ -1,6 +1,6 @@
 FROM ubuntu:18.04
 
-LABEL maintainer "damarre <dear.ananta@gmail.com>"
+LABEL maintainer "habibiaboy <mrifqihabibi@gmail.com>"
 
 #=============
 # Set WORKDIR
@@ -71,6 +71,7 @@ RUN apt-get -qqy update && apt-get -qqy upgrade && apt-get -qqy install --no-ins
     net-tools \
     chromium-browser \
     firefox \
+    vim \
     software-properties-common \
     python3-setuptools \
     python3-pip \
@@ -102,12 +103,12 @@ RUN wget -nv -O noVNC.zip "https://github.com/novnc/noVNC/archive/${NOVNC_SHA}.z
 #==============================================
 # Download Robot Framework and Selenium Library
 #==============================================
-RUN pip3 install wheel && pip3 install robotframework==4.1 && pip3 install --upgrade robotframework-seleniumlibrary robotframework-faker && pip3 install pyyaml
+RUN pip3 install wheel && pip3 install robotframework==4.1.3 && pip3 install robotframework-seleniumlibrary==5.1.3 && pip3 install robotframework-faker && pip3 install pyyaml
 
 #======================
 # Download Chromium
 #======================
-ARG CHROMEDRIVER_VERSION=91.0.4472.101
+ARG CHROMEDRIVER_VERSION=108.0.5359.71
 ENV CHROMEDRIVER_VERSION=$CHROMEDRIVER_VERSION
 
 RUN wget https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip;\
@@ -176,5 +177,6 @@ EXPOSE 6080
 #=============
 COPY src /root/src
 RUN chmod -R +x /root/src
+RUN chmod -R 777 /home
 
 CMD /usr/bin/supervisord --configuration src/supervisord.conf
