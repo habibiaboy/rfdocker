@@ -21,7 +21,7 @@ Robot Cobweb is a docker image built solution to be used for E2E web testing (de
 1. Run this image by using docker run command. You should mount your Robot Framework test script in your host machine to docker container path at ```/home/robot```. Let say your RF test script is located in ```/home/my_user/test_script_dir```
 
     ```
-    docker run -d --name robotframework -p 6080:6080 -v /home/my_user/test_script_dir:/home/robot/test_script_dir semutmerah/robot-cobweb
+    docker run -d --name robotframework -p 6080:6080 -v /home/my_user/test_script_dir:/home/robot/test_script_dir semangatbaru/robotweb
     ```
 
 2. Verify the ip address of docker host. For Linux OS, localhost should work.
